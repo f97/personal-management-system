@@ -1,20 +1,21 @@
-FROM php:7.4-fpm
+FROM php:7.4-fpm-alpine
 
-RUN apt-get update && apt-get install -y zlib1g-dev libicu-dev g++
+RUN apk update && apk --no-cache add zlib-dev g++ icu-dev
+
 RUN docker-php-ext-configure intl
 RUN docker-php-ext-install intl
 RUN docker-php-ext-install pdo pdo_mysql
 
-RUN apt-get install -y \
+RUN apk --no-cache add \
         libzip-dev \
         zip \
   && docker-php-ext-install zip
 
-RUN apt-get update -y && apt-get install -y libpng-dev
+RUN apk update && apk --no-cache add libpng-dev
 
-RUN apt-get update && \
-    apt-get install -y \
-        zlib1g-dev
+RUN apk update && \
+    apk --no-cache add \
+        autoconf make
 
 RUN docker-php-ext-install gd
 
